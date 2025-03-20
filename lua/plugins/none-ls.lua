@@ -7,14 +7,17 @@ return {
 			sources = {
 				null_ls.builtins.completion.spell,
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettier,
-				null_ls.builtins.formatting.biome,
-				null_ls.builtins.formatting.black,
-				null_ls.builtins.formatting.isort,
-				null_ls.builtins.diagnostics.semgrep,
+				null_ls.builtins.formatting.dart_format,
 			},
 		})
 
 		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			pattern = "*.dart",
+			callback = function()
+				vim.lsp.buf.format()
+			end,
+		})
 	end,
 }
